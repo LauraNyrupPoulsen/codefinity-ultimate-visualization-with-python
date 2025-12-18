@@ -1,0 +1,70 @@
+# Matplotlib
+
+## Matplotlib Layers & Core Objects
+
+This chapter covers the three-layer architecture of Matplotlib and how to create basic figures.
+
+### 1. Architecture Overview
+
+1. **Backend layer**  
+   Renders plots to screens or files.
+
+2. **Artist layer**  
+   - **Containers**:  
+     - `Figure` – the overall canvas  
+     - `Axes` – holds x- and y-axis, the area you plot into  
+   - **Primitives**: lines, rectangles, circles, text, etc.
+
+3. **Scripting layer** (`pyplot`)  
+   User-friendly API tying backend + artist layers together.
+
+### 2. Key Classes
+
+- **Figure**  
+  The top-level container for all plot elements.
+
+- **Axes**  
+  The drawing area; holds two axis objects and plotting methods.
+
+### 3. Quick Start Example
+
+```python
+import matplotlib.pyplot as plt
+
+# Create a Figure and a single Axes
+fig, ax = plt.subplots()
+
+# Plot (empty by default)
+ax.plot()
+
+# Display
+plt.show()
+
+### 4. Notes
+
+- fig is your canvas; ax is where you call plot methods.
+
+- Always call plt.show() to render the figure to screen.
+
+## Basic Plotting
+
+This chapter introduces how to create your first plot with Matplotlib using two styles:
+
+1. **Scripting (state-machine) approach**
+
+- You import pyplot as plt.
+- You call plt.plot(x, y, 'o') directly—Matplotlib handles figure/axes creation behind the scenes.
+- You display the plot with plt.show().
+
+2. **Object-oriented approach**
+
+- You call fig, ax = plt.subplots() to explicitly create a Figure and Axes.
+- You plot via ax.plot(x, y, 'o').
+- You still finish with plt.show().
+
+
+**Key points:**
+
+- Always import with import matplotlib.pyplot as plt.
+- The order of arguments to plot() is important: x then y.
+- Both approaches are equivalent under the hood; the scripting approach is simpler and will be used most in the course.
