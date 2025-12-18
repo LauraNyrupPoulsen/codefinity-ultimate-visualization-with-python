@@ -68,3 +68,189 @@ This chapter introduces how to create your first plot with Matplotlib using two 
 - Always import with import matplotlib.pyplot as plt.
 - The order of arguments to plot() is important: x then y.
 - Both approaches are equivalent under the hood; the scripting approach is simpler and will be used most in the course.
+
+## Line Plot
+
+### 1. Applications of Line Plots
+- Visualize relationships between two continuous or ordinal variables  
+- Track how a variable changes over time  
+
+### 2. The `plot()` Function
+- Signature: `plt.plot(x_values, y_values, format_string)`  
+  - `x_values`: data for the x-axis  
+  - `y_values`: data for the y-axis  
+  - `format_string`: line/marker style (e.g. `'-o'` for a solid line with circle markers)  
+- If only one array is passed, it’s used as `y_values` and `x_values` defaults to indices (0, 1, 2, …)
+
+### 3. Common Workflow
+1. Import modules  
+   ```python
+   import matplotlib.pyplot as plt
+   import numpy as np
+   ```
+
+2. Prepare data
+   ```python 
+   x_data = np.arange(0, 6)
+   y_data = x_data ** 2
+   ```
+
+3. Create the plot
+   ```python
+   plt.plot(x_data, y_data, '-o')
+   ```
+
+4. Display it
+   ```python
+   plt.show()
+   ```
+
+5. Format String Examples
+   - '-' : solid line
+   - '--': dashed line
+   - '.' : point markers
+   - 'o' : circle markers
+   - Combine: '-o', '--s' (square markers), etc.
+
+## Plotting Multiple Lines in Matplotlib
+
+- You can overlay multiple line plots on the same Axes to compare trends.
+- Three main approaches:
+  1. **Multiple `plot()` calls**  
+     Call `plot()` once per series; each uses its index for the x-axis.
+  2. **Single `plot()` with pairs**  
+     Pass `(series1, style1, series2, style2)` so markers/styles distinguish lines.
+  3. **Plot the entire DataFrame**  
+     One call draws each column as a separate line using the DataFrame’s index.
+
+## Scatter Plots
+
+### Definition  
+A **scatter plot** visualizes the relationship between two variables (x and y) using markers without connecting lines.
+
+### Key Points  
+- Created with `plt.scatter(x, y)` from Matplotlib’s `pyplot`.  
+- Always supply both `x` and `y` arrays.  
+- Offers more styling control (marker size, color, transparency) than `plt.plot(x, y, 'o')`.  
+
+### Basic Usage  
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.array([6, 1, 8, 20, 13, 4, 16, 5, 11, 10])
+y = 2 * x + 5
+
+plt.scatter(x, y)      # default markers
+plt.show()
+```
+
+### Customizing Markers
+
+- Change marker style via the marker parameter.
+- Adjust marker size via the s parameter.
+
+```python
+plt.scatter(x, y, marker='x', s=100)
+plt.show()
+```
+
+### Multiple Scatter Plots
+Call plt.scatter() multiple times with different data sets to overlay several scatter series.
+
+### Scatter vs. Line Plot with Markers
+
+- plt.plot(x, y, 'o'): a line plot using circle markers—limited styling.
+- plt.scatter(x, y): a dedicated scatter plot—fine-grained control per point.
+
+## Bar
+This chapter introduces how to create and customize bar charts in Python using Matplotlib’s pyplot.bar() function:
+
+Definition
+
+A bar chart displays categorical data with rectangular bars whose heights (or lengths) reflect the values.
+Core Function
+
+plt.bar(x_labels, heights)
+• x_labels: list of category names (x-axis)
+• heights: list of values for each bar
+Common Options
+
+color: single color or list of colors for the bars
+width: bar widths—either one number for all bars or a list of individual widths
+Examples
+
+Basic bar chart with custom colors
+plt.bar(langs, shares, color=[…])
+Varying bar widths
+plt.bar(langs, shares, width=[0.9, 0.7, 0.5, 0.3])
+Task Reminder
+
+Use plt.bar(countries, gdp_list, width=[0.6, 0.45, 0.9, 0.2]) to set each bar’s width as specified.
+
+ ## stacked bar charts:
+
+• Purpose
+– Show how different sub-categories contribute to a total within each x-axis group.
+– Make it easy to compare both totals and components across groups.
+
+• Key Function
+– plt.bar(x, height, bottom=…)
+• x: category labels or positions
+• height: bar heights for one segment
+• bottom: y-positions where this segment starts (i.e. cumulative height of earlier segments)
+
+• Workflow
+
+Call plt.bar() for the first category (base segment).
+Call plt.bar() again for each additional segment, using bottom=previous heights (or sum of them) to stack.
+Finally, plt.show() to render the chart.
+• Example
+– Define your groups and arrays (e.g. questions, yes_answers, no_answers).
+– Plot yes_answers with plt.bar(questions, yes_answers).
+– Plot no_answers on top with plt.bar(questions, no_answers, bottom=yes_answers).
+
+That covers how to build a stacked bar chart with Matplotlib.
+
+## Grouped Bar Chart
+This chapter shows you how to build grouped bar charts in Matplotlib—useful when you want to compare several categories side-by-side across different groups (for example, “yes” vs. “no” answers for multiple questions).
+
+Key points:
+
+Arrange your x-axis positions with np.arange() based on the number of groups.
+Store each category’s data (e.g. yes-answers, no-answers) in separate arrays, then combine them into a 2D array.
+Choose a bar width (width = 0.3, say).
+Loop over each row of the 2D data array; for the i-th category, call plt.bar(positions + width*i, data[i], width) to shift its bars horizontally.
+After plotting all categories, center the tick labels under each group with something like
+plt.xticks(positions + width*(num_categories–1)/2, labels).
+That produces a neat side-by-side comparison of categories across your defined groups.
+
+example 
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Labels and data
+countries = ['USA', 'China', 'Japan']
+positions = np.arange(len(countries))
+
+primary = np.array([1.4, 4.8, 0.4])
+secondary = np.array([11.3, 6.2, 0.8])
+tertiary = np.array([14.2, 8.4, 3.2])
+
+# Group the data
+sectors = np.array([primary, secondary, tertiary])
+
+# Width of each bar
+width = 0.25
+
+# Plot each group of bars
+for i in range(len(sectors)):
+    plt.bar(positions + width * i, sectors[i], width)
+
+# Center the group of bars and label the ticks
+plt.xticks(positions + width, countries)
+
+plt.show()
+```
+                                                                                                                     
